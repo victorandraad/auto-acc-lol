@@ -1,17 +1,12 @@
-#!/usr/bin/env python
 import tkinter as tk
 
-class Application(tk.Frame):
-    def __init__(self, master=None):
-        tk.Frame.__init__(self, master)
-        self.grid()
-        self.createWidgets()
+app = tk.Tk()
+app.geometry("400x300")
+app.resizable(False, False)
+app.title('[BETA] - OTP')
 
-    def createWidgets(self):
-        self.quitButton = tk.Button(self, text='Quit',
-            command=self.quit)
-        self.quitButton.grid()
-
-app = Application()
-app.master.title("titulo")
-app.mainloop()    
+label = tk.Label(app, text='[BETA] - OTP BOT', font=('Arial', 16))
+label.config()
+label.pack()
+app.config(bg='black')
+app.mainloop()
