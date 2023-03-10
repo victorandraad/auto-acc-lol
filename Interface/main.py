@@ -1,12 +1,13 @@
-import tkinter as tk
+import customtkinter
 
-app = tk.Tk()
-app.geometry("400x300")
-app.resizable(False, False)
-app.title('[BETA] - OTP')
+customtkinter.set_appearance_mode("System")
+customtkinter.set_default_color_theme("blue")
 
-label = tk.Label(app, text='[BETA] - OTP BOT', font=('Arial', 16))
-label.config()
-label.pack()
-app.config(bg='black')
+app = customtkinter.CTk()
+app.geometry("300x250")
+# app.resizable(False, False)
+
+frame = customtkinter.CTkFrame(master=app)
+frame.pack(pady=20, padx=10, fill="both", expand=True)
+
 app.mainloop()
