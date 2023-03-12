@@ -1,0 +1,13 @@
+#body {
+    background-color: white;
+}
+
+#auto {
+    background-color: #537FE7;
+    color: white;
+    border-width: 2px;
+    border-style: solid;
+    border-color: white;
+    border-radius: 10px;
+    font-size: 20px;
+}
