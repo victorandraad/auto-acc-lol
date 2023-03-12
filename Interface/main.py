@@ -1,7 +1,7 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFrame, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFrame, QWidget, QVBoxLayout
 from PyQt5.QtGui import QPixmap, QIcon
-from time import sleep
 import sys
+import os
 
 class Main(QMainWindow):
     def __init__(self):
@@ -40,7 +40,7 @@ class Main(QMainWindow):
         self.image_container.setObjectName('image_container')
 
         self.image = QLabel(self.image_container)
-        self.champ_image = QPixmap('Interface\settings\champs\Aatrox.png')
+        self.champ_image = QPixmap('Interface\settings\champs\Kayn.png')
         self.image.setPixmap(self.champ_image)
         self.image.setObjectName('champ_image')
         self.image.setGeometry(65, 0, 100, 110)
@@ -107,15 +107,43 @@ class Change(QWidget):
         self.setWindowTitle('p e p p a . j p e g')
         self.setGeometry(20, 100, 350, 350)
         self.setObjectName('body')
-        self.setMinimumSize(350, 350)
-        self.setMaximumSize(350, 350)
+
         with open('Interface/style.css', 'r') as f:
             css = f.read()     
         app.setStyleSheet(css)
 
+        # Botões imagem
+        self.image_dir = 'Interface\settings\champs'
+        self.images_files = [f for f in os.listdir(self.image_dir) if os.path.isfile(os.path.join(self.image_dir,  f)) and f.endswith('.png')]
+        
+        contador = 0
+        for filename in self.images_files:
+            contador += 1  
+            if contador % 4 == 0:
+                for c in range(4):
+                    controladory = i*60
+                    controladorx = i*90
+                    button = QPushButton(self)
+                    layout = QVBoxLayout(button)
+                    image = QPixmap(os.path.join(self.image_dir, filename)).scaled(60, 60)
+                    label = QLabel(self)
+                    label.setPixmap(image)
+                    layout.addWidget(label)
+                    layout.setContentsMargins(10, 0, 0, 0)
+                    button.setGeometry(controladorx, controladory, image.width(), image.height())
+            else:
+                button = QPushButton(self)
+                layout = QVBoxLayout(button)
+                image = QPixmap(os.path.join(self.image_dir, filename)).scaled(60, 60)
+                label = QLabel(self)
+                label.setPixmap(image)
+                layout.addWidget(label)
+                layout.setContentsMargins(10, 0, 0, 0)
+                button.setGeometry(i*90, 5, image.width(), image.height())
+                
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = Main()
+    window = Change()
     window.show()
     sys.exit(app.exec_())
