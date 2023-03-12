@@ -1,30 +1,51 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFrame
 import sys
 
 class MyWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        
+
+        # Define o container do header, é importante "fixar" o uso do self para que seja acessível em todo o código,
+        # cada variável criada com self é adicionada à lista de variáveis dentro de self(objeto)
+        self.header_container = QFrame(self) 
+        self.header_container.setObjectName('header_container')
+        self.header_container.setGeometry(0, -7, self.width(), 40) 
+
+        # Define a label e a label é atribuída ao header container:
+        self.header = QLabel('p e p p a p e p p a p e p p a p e p p a', self.header_container)
+        self.header.setObjectName('header')
+
+        # Seta duas variáveis booleanas como False para que possam ser alteradas e identificadas em uma
+        # função dinâmica, que pega esse valor como propriedade para realizar ações
         self.style_autoaccept = False
         self.style_autopick = False
 
+        # Define autoaccept como botão atribuída a self (corpo do app), é legal informar que aqui eu seto "auto" como objectname para poder
+        # usá-lo em um arquivo css
         self.autoaccept = QPushButton('auto-accept', self)
         self.autoaccept.setObjectName('auto')
-        self.autoaccept.setGeometry(10, 10, 130, 30)
-        self.autoaccept.clicked.connect(self.autoaccept_action)
+        self.autoaccept.setGeometry(40, 20, 120, 40) # Geometry define as dimensões do botão
+        self.autoaccept.clicked.connect(self.autoaccept_action) # Adiciona ação ao evento clicar no botão
 
         self.autopick = QPushButton('auto-pick', self)
         self.autopick.setObjectName('auto')
-        self.autoaccept.setGeometry(200, 10, 130, 30)
+        self.autopick.setGeometry(185, 20, 120, 40)
         self.autopick.clicked.connect(self.autopick_action) 
 
+        self.image = QLabel('teste', self)
+        self.image.setGeometry(160, 70, 160, 70)
+
+        # Define propriedades do app como título, estilo, tamanho, etc
         self.setWindowTitle('p e p p a . j p e g')
-        self.setGeometry(100, 100, 400, 300)
+        self.setGeometry(20, 100, 350, 350)
         self.setObjectName('body')
-        with open('Interface\style.css', 'r') as f:
+        self.setMinimumSize(350, 350)
+        self.setMaximumSize(350, 350)
+        with open('Interface/style.css', 'r') as f:
             css = f.read()     
         app.setStyleSheet(css)
 
+    # Função chamada ao clicar no botão de autoaccept
     def autoaccept_action(self):
         self.style_autoaccept = not self.style_autoaccept
 
@@ -33,6 +54,7 @@ class MyWindow(QMainWindow):
         else:
             self.autoaccept.setStyleSheet('background-color: black;')
 
+    # Função chamada ao clicar no botão autopick
     def autopick_action(self):
         self.style_autopick = not self.style_autopick
 
