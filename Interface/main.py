@@ -1,13 +1,25 @@
-import customtkinter
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtCore import QUrl
+import sys
 
-customtkinter.set_appearance_mode("System")
-customtkinter.set_default_color_theme("blue")
+class MyWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
-app = customtkinter.CTk()
-app.geometry("300x250")
-# app.resizable(False, False)
+        self.setWindowTitle('p e p p a')
+        self.setGeometry(100, 100, 400, 300)
+        self.setStyleSheet('background-color: black;')
 
-frame = customtkinter.CTkFrame(master=app)
-frame.pack(pady=20, padx=10, fill="both", expand=True)
+        button = QPushButton('Botão', self)
+        button.setGeometry(150, 100, 100, 50)
 
-app.mainloop()
+        webview = QWebEngineView(self)
+        self.setCentralWidget(webview)
+        webview.load(QUrl(''))
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    window = MyWindow()
+    window.show()
+    sys.exit(app.exec_())
