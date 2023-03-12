@@ -15,8 +15,14 @@
     background-color: #537FE7;
     color: white;
     border-width: 2px;
-    border-style: solid;
+    border-style: hidden;
     border-color: white;
     border-radius: 10px;
     font-size: 20px;
+}
+
+#champ_image {
+    border-style: solid;
+    border-radius: 20px;
+    border-width: 2px;
 }

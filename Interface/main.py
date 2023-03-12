@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFrame
+from PyQt5.QtGui import QPixmap
 import sys
 
 class MyWindow(QMainWindow):
@@ -32,8 +33,21 @@ class MyWindow(QMainWindow):
         self.autopick.setGeometry(185, 20, 120, 40)
         self.autopick.clicked.connect(self.autopick_action) 
 
-        self.image = QLabel('teste', self)
-        self.image.setGeometry(160, 70, 160, 70)
+        # Image container
+        self.image_container = QFrame(self)
+        self.image_container.setGeometry(65, 100, 200, 130)
+        self.image_container.setObjectName('image_container')
+
+        self.image = QLabel(self.image_container)
+        self.champ_image = QPixmap('Interface\champs\Viego.png')
+        self.image.setPixmap(self.champ_image)
+        self.image.setObjectName('champ_image')
+        self.image.setGeometry(65, 0, 100, 110)
+
+        #Change
+        self.change_button = QPushButton('Change', self)
+        self.change_button.setGeometry(130, 210, 100, 40)
+        self.change_button.clicked.connect(self.change_champ)
 
         # Define propriedades do app como título, estilo, tamanho, etc
         self.setWindowTitle('p e p p a . j p e g')
@@ -62,6 +76,10 @@ class MyWindow(QMainWindow):
             self.autopick.setStyleSheet('background-color: #537FE7;')
         else:
             self.autopick.setStyleSheet('background-color: black;')
+    
+    # Função chamada ao clicar em change
+    def change_champ(self):
+        print('clicou')
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
