@@ -8,7 +8,7 @@
 }
 
 #body {
-    background-color: white;
+    background-color: #181823;
 }
 
 #auto {
@@ -25,4 +25,19 @@
     border-style: solid;
     border-radius: 20px;
     border-width: 2px;
+    border-color: white;
+}
+
+#change_button {
+    color: black;
+    background: #C0EEF2;
+    font-size: 20px;
+}
+
+#config_button {
+    border-radius: 30px;
+    border-width: 3px;
+    border-style: solid;
+    background-color: #E9F8F9;
+    color: white;
 }

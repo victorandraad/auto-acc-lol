@@ -1,8 +1,9 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFrame
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFrame, QWidget
+from PyQt5.QtGui import QPixmap, QIcon
+from time import sleep
 import sys
 
-class MyWindow(QMainWindow):
+class Main(QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -39,15 +40,26 @@ class MyWindow(QMainWindow):
         self.image_container.setObjectName('image_container')
 
         self.image = QLabel(self.image_container)
-        self.champ_image = QPixmap('Interface\champs\Viego.png')
+        self.champ_image = QPixmap('Interface\settings\champs\Aatrox.png')
         self.image.setPixmap(self.champ_image)
         self.image.setObjectName('champ_image')
         self.image.setGeometry(65, 0, 100, 110)
 
-        #Change
-        self.change_button = QPushButton('Change', self)
-        self.change_button.setGeometry(130, 210, 100, 40)
+        # Change
+        self.change_button = QPushButton('change', self)
+        self.change_button.setGeometry(130, 215, 100, 40)
         self.change_button.clicked.connect(self.change_champ)
+        self.change_button.setObjectName('change_button')
+
+        # config
+        self.config_button = QPushButton(self)
+        self.config_image = QPixmap('Interface\settings\icon.png')
+        self.config_button.setIcon(QIcon(self.config_image))
+        self.config_button.setGeometry(310, 310, 30, 30)
+        self.config_button.setObjectName('config_button')
+        self.config_button.clicked.connect(self.config_button_action)
+
+
 
         # Define propriedades do app como título, estilo, tamanho, etc
         self.setWindowTitle('p e p p a . j p e g')
@@ -65,6 +77,7 @@ class MyWindow(QMainWindow):
 
         if self.style_autoaccept:
             self.autoaccept.setStyleSheet('background-color: #537FE7;')
+            
         else:
             self.autoaccept.setStyleSheet('background-color: black;')
 
@@ -79,10 +92,30 @@ class MyWindow(QMainWindow):
     
     # Função chamada ao clicar em change
     def change_champ(self):
-        print('clicou')
+
+        self.change_page = Change()
+        self.change_page.show()
+        
+    
+    def config_button_action(self):
+        print('clicou1')
+
+class Change(QWidget):
+    def __init__(self):
+        super().__init__()
+        # Define propriedades do app como título, estilo, tamanho, etc
+        self.setWindowTitle('p e p p a . j p e g')
+        self.setGeometry(20, 100, 350, 350)
+        self.setObjectName('body')
+        self.setMinimumSize(350, 350)
+        self.setMaximumSize(350, 350)
+        with open('Interface/style.css', 'r') as f:
+            css = f.read()     
+        app.setStyleSheet(css)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = MyWindow()
+    window = Main()
     window.show()
     sys.exit(app.exec_())
