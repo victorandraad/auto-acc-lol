@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFrame, QWidget, QVBoxLayout, QScrollArea
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFrame, QToolButton, QMenu, QScrollArea, QVBoxLayout
 from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtCore import Qt
 import sys
 import os
 
@@ -27,12 +27,12 @@ class Main(QMainWindow):
         # usá-lo em um arquivo css
         self.autoaccept = QPushButton('auto-accept', self)
         self.autoaccept.setObjectName('auto')
-        self.autoaccept.setGeometry(40, 20, 120, 40) # Geometry define as dimensões do botão
+        self.autoaccept.setGeometry(40, 40, 120, 40) # Geometry define as dimensões do botão
         self.autoaccept.clicked.connect(self.autoaccept_action) # Adiciona ação ao evento clicar no botão
 
         self.autopick = QPushButton('auto-pick', self)
         self.autopick.setObjectName('auto')
-        self.autopick.setGeometry(185, 20, 120, 40)
+        self.autopick.setGeometry(185, 40, 120, 40)
         self.autopick.clicked.connect(self.autopick_action) 
 
         # Image container
@@ -41,16 +41,29 @@ class Main(QMainWindow):
         self.image_container.setObjectName('image_container')
 
         self.image = QLabel(self.image_container)
-        self.champ_image = QPixmap('Interface\settings\champs\Kayn.png')
+        self.champ_image = QPixmap('Interface\settings\champs\Aatrox.png')
         self.image.setPixmap(self.champ_image)
         self.image.setObjectName('champ_image')
         self.image.setGeometry(65, 0, 100, 110)
 
         # Change
-        self.change_button = QPushButton('change', self)
+        self.change_button = QToolButton(self)
+        self.change_button.setText('Aatrox')
         self.change_button.setGeometry(130, 215, 100, 40)
-        self.change_button.clicked.connect(self.change_champ)
+        self.change_button.setPopupMode(QToolButton.InstantPopup)
         self.change_button.setObjectName('change_button')
+
+        self.menu = QMenu(self)
+        champs_dir = 'Interface\settings\champs'
+        arquivos = [f for f in os.listdir(champs_dir) if os.path.isfile(os.path.join(champs_dir, f)) and f.endswith('.png')]
+        arquivos = [os.path.splitext(f)[0] for f in arquivos]
+        for arquivo in arquivos:
+            arquivo = arquivo
+            item = self.menu.addAction(arquivo)
+            item.triggered.connect(lambda checked, arquivo=arquivo: self.champ_seleccionado(arquivo))
+
+        self.menu.setObjectName('menu')
+        self.change_button.setMenu(self.menu)
 
         # config
         self.config_button = QPushButton(self)
@@ -59,7 +72,6 @@ class Main(QMainWindow):
         self.config_button.setGeometry(310, 310, 30, 30)
         self.config_button.setObjectName('config_button')
         self.config_button.clicked.connect(self.config_button_action)
-
 
 
         # Define propriedades do app como título, estilo, tamanho, etc
@@ -71,6 +83,14 @@ class Main(QMainWindow):
         with open('Interface/style.css', 'r') as f:
             css = f.read()     
         app.setStyleSheet(css)
+
+    def champ_seleccionado(self, x):
+        self.champ_image = QPixmap(f'Interface\settings\champs\{x}.png')
+        self.image.setPixmap(self.champ_image)
+        self.image.setObjectName('champ_image')
+        self.image.setGeometry(65, 0, 100, 110)
+        self.change_button.setText(f'{x}')
+
 
     # Função chamada ao clicar no botão de autoaccept
     def autoaccept_action(self):
@@ -91,66 +111,12 @@ class Main(QMainWindow):
         else:
             self.autopick.setStyleSheet('background-color: black;')
     
-    # Função chamada ao clicar em change
-    def change_champ(self):
-
-        self.change_page = Change()
-        self.change_page.show()
-        
-    
     def config_button_action(self):
         print('clicou1')
 
-class Change(QWidget):
-    def __init__(self):
-        super().__init__()
-        # Define propriedades do app como título, estilo, tamanho, etc
-        self.setWindowTitle('p e p p a . j p e g')
-        self.setGeometry(20, 100, 360, 350)
-        self.setObjectName('body')
-        self.setFixedSize(350, 350)
-
-        with open('Interface/style.css', 'r') as f:
-            css = f.read()     
-        app.setStyleSheet(css)
-
-        # Botões imagem
-        self.image_dir = 'Interface\settings\champs'
-        self.images_files = [f for f in os.listdir(self.image_dir) if os.path.isfile(os.path.join(self.image_dir,  f)) and f.endswith('.png')]
-        
-        # Cria um widget
-        # Lista todos os campeões
-        contador = -5
-        contador2 = 0
-        atingir = len(self.images_files)
-        for c in range(0, atingir, 5):
-            for c in range(0, 5):
-                if contador < 0:
-                    button = QPushButton(self)
-                    layout = QVBoxLayout(button)
-                    image = QPixmap(os.path.join(self.image_dir, self.images_files[c])).scaled(60, 60)
-                    label = QLabel(self)
-                    label.setPixmap(image)
-                    layout.addWidget(label)
-                    layout.setContentsMargins(10, 0, 0, 0)
-                    button.setGeometry(c*70, 10, image.width(), image.height())
-                    contador +=1
-                elif contador >= atingir-5:
-                    print('oi')
-                elif contador >=0:
-                    button = QPushButton(self)
-                    layout = QVBoxLayout(button)
-                    image = QPixmap(os.path.join(self.image_dir, self.images_files[contador+5])).scaled(60, 60)
-                    label = QLabel(self)
-                    label.setPixmap(image)
-                    layout.addWidget(label)
-                    layout.setContentsMargins(10, 0, 0, 0)
-                    button.setGeometry(c*70, contador2*70, image.width(), image.height())
-                    contador +=1
-            contador2+=1 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = Change()
+    window = Main()
     window.show()
     sys.exit(app.exec_())
