@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFrame, QToolButton, QMenu, QScrollArea, QVBoxLayout
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt
+import autoaccept.autoaccept as autoaccept
 import sys
 import os
 
