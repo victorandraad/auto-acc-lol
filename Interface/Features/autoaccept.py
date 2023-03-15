@@ -2,8 +2,7 @@ import pygetwindow
 from time import sleep
 
 class autoaccept():
-    def __init__(self):
-        super().__init__()
+    def iniciar():
         sleep(2)
         
         list = pygetwindow.getAllTitles()
@@ -12,10 +11,13 @@ class autoaccept():
             if 'LEAGUE OF LEGENDS' in nome:
                 print(f'League of Legends encontrado nome completo da janela: {nome}')
                 break
+
         window = pygetwindow.getActiveWindowTitle().upper()
-        
         if window == nome:
             print('teste')
+    
+    def fim():
+        print('oi ricado')
 
+print('finalizado')
 autoaccept()
-efgh

@@ -1,2 +1,1 @@
-# interfaceGrafica
- Interface gráfica para futuro bot do otp
+# LoL - AutoPick and Accept Queue - BOT

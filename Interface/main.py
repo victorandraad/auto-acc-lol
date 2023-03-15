@@ -1,7 +1,11 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFrame, QToolButton, QMenu, QScrollArea, QVBoxLayout
 from PyQt5.QtGui import QPixmap, QIcon
+from Features.tools import function
+import threading    
 import sys
 import os
+
+tool = function()
 
 class Main(QMainWindow):
     def __init__(self):
@@ -100,6 +104,7 @@ class Main(QMainWindow):
             
         else:
             self.autoaccept.setStyleSheet('background-color: black;')
+            tool.verify()
 
     # Função chamada ao clicar no botão autopick
     def autopick_action(self):
@@ -111,8 +116,7 @@ class Main(QMainWindow):
             self.autopick.setStyleSheet('background-color: black;')
     
     def config_button_action(self):
-        print('clicou1')
-
+        print('')
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
