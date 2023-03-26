@@ -1,11 +1,12 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFrame, QToolButton, QMenu, QScrollArea, QVBoxLayout
 from PyQt5.QtGui import QPixmap, QIcon
 from Features.tools import function
-import threading    
+from threading import Thread 
 import sys
 import os
 
 tool = function()
+autoaccept = Thread(target=tool.verify)
 
 class Main(QMainWindow):
     def __init__(self):
@@ -101,10 +102,13 @@ class Main(QMainWindow):
 
         if self.style_autoaccept:
             self.autoaccept.setStyleSheet('background-color: #537FE7;')
+            tool.stop()
             
         else:
             self.autoaccept.setStyleSheet('background-color: black;')
-            tool.verify()
+            autoaccept.start()
+            autoaccept.join()
+
 
     # Função chamada ao clicar no botão autopick
     def autopick_action(self):
@@ -123,3 +127,6 @@ if __name__ == '__main__':
     window = Main()
     window.show()
     sys.exit(app.exec_())
+
+main = Thread(target=Main)
+main.start()

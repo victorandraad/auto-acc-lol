@@ -16,3 +16,7 @@ class function():
             self.hwnd_lol = pygetwindow.getWindowsWithTitle('League of Legends')[0]
             if self.active._hWnd == self.hwnd_lol._hWnd:
                 break
+    
+
+    def stop(self):
+        pass
