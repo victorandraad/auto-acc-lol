@@ -12,14 +12,7 @@ class Start():
                 print(f'League of Legends encontrado.')
                 cont = 1
 
-        while cont == 1:
-            active = pygetwindow.getActiveWindow() #janela que está ativa, retorna
-            hwnd_lol = pygetwindow.getWindowsWithTitle('League of Legends')[0] # pega o codigo da janela do lol
-            try:
-                if active._hWnd == hwnd_lol._hWnd:
-                    cont = 2
-            except AttributeError:
-                input("[AVISO] Erro ao encontrar uma propriedade do League of Legends, por favor, tente abri-lo ou maximiza-lo novamente e pressione ENTER no app: ")
+
         print("Digite o número que corresponde ao seu desejo: ")
         print("[1] APENAS AUTO ACCEPT")
         print("[2] APENAS AUTO PICK")
@@ -48,11 +41,6 @@ class Start():
                 sleep(1)
         sleep(2)
         screenshot = pyautogui.screenshot(region=(region))
-        texto = pytesseract.image_to_string(screenshot, lang='por')
-        try:
-            print(texto)
-        except:
-            print('Erro ao imprimir text')
-        
+        screenshot.save("image.png")
 
 Start().verify()
