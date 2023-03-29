@@ -25,59 +25,51 @@ class Start():
                 print("[ERRO] Escolha um número inteiro, caso queira encerrar o app, escolha um número não mencionado!")
 
         if self.escolha == 1:
-            Start().autoaccept()
+            self.autoaccept()
         
         if self.escolha == 2:
-            Start().autopick()
+            self.autopick()
+
+    def get_elements(self, l, t, w, h, value):
+        listWindow = pygetwindow.getAllTitles()  #lista nome de todos os apps ativos no windows
+
+        if 'League of Legends (TM) Client' in listWindow:
+            sleep(60)
+            return
+        
+        else:
+            try:
+                hwnd_lol = pygetwindow.getWindowsWithTitle('League of Legends')[0] # pega o codigo da janela do lol
+                left, top, width, height = hwnd_lol.left, hwnd_lol.top, hwnd_lol.width, hwnd_lol.height
+
+                x1, y1, x2, y2 = (l / 1024) * width, (t / 576) * height, (w / 1024) * width, (h / 576) * height
+                self.region = (left + x1, top +y1, x2 - x1, y2 - y1)
+
+                screenshot = pyautogui.screenshot(region=(self.region))
+                pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+            except IndexError:
+                input("[ERRO] Erro ao encontrar o League of Legends, por favor, esteja segura de que ele está aberto!")
+
+            texto = pytesseract.image_to_string(screenshot)
+            if value in texto:
+                return True
+            sleep(4)
 
     def autoaccept(self):
         while True:
-            listWindow = pygetwindow.getAllTitles()  #lista nome de todos os apps ativos no windows
-            if 'League of Legends (TM) Client' in listWindow:
-                sleep(60)
-            else:
-                while True:
-                    hwnd_lol = pygetwindow.getWindowsWithTitle('League of Legends')[0] # pega o codigo da janela do lol
-                    left, top, width, height = hwnd_lol.left, hwnd_lol.top, hwnd_lol.width, hwnd_lol.height
+            if self.get_elements(475, 436, 551, 453, 'ACEITAR'):
+                pyautogui.moveTo(self.region)
+                pyautogui.click(self.region)
+                sleep(12)
 
-                    x1, y1, x2, y2 = (475 / 1024) * width, (436 / 576) * height, (551 / 1024) * width, (453 / 576) * height
-                    region = (left + x1, top +y1, x2 - x1, y2 - y1)
+            
 
-                    screenshot = pyautogui.screenshot(region=(region))
-                    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-                    try:
-                        texto = pytesseract.image_to_string(screenshot)
-                        sleep(3)
-                        if 'ACEITAR' in texto:
-                            pyautogui.moveTo(region)
-                            pyautogui.click()
-                            return 'Partida aceita!'
-                    except:
-                        sleep(0.1)
 
     def autopick(self):
         while True:
-            listWindow = pygetwindow.getAllTitles()  #lista nome de todos os apps ativos no windows
-            if 'League of Legends (TM) Client' in listWindow:
-                sleep(60)
+            if self.get_elements(344, 11, 478, 37, 'SELECIONE'):
+                pass
             
-            else:
-                while True:
-                    hwnd_lol = pygetwindow.getWindowsWithTitle('League of Legends')[0] # pega o codigo da janela do lol
-                    left, top, width, height = hwnd_lol.left, hwnd_lol.top, hwnd_lol.width, hwnd_lol.height
-
-                    x1, y1, x2, y2 = (344 / 1024) * width, (11 / 576) * height, (478 / 1024) * width, (37 / 576) * height
-                    region = (left + x1, top +y1, x2 - x1, y2 - y1)
-
-                    screenshot = pyautogui.screenshot(region=(region))
-                    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-                    try:
-                        texto = pytesseract.image_to_string(screenshot)
-                        sleep(3)
-                        if 'SELECIONE' in texto:
-                            print("Hora de escolher!")
-                    except:
-                        sleep(0.1)
             
                                 
     
