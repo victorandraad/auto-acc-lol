@@ -48,7 +48,7 @@ class Start():
                 self.region = (self.left + x1, self.top +y1, x2 - x1, y2 - y1)
 
                 screenshot = pyautogui.screenshot(region=(self.region))
-                pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+                pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
             except IndexError:
                 input("[ERRO] Erro ao encontrar o League of Legends, por favor, esteja segura de que ele está aberto!")
 
