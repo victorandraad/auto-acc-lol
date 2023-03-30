@@ -14,21 +14,23 @@ class Start():
         print("Digite o número que corresponde ao seu desejo: ")
         print("[1] APENAS AUTO ACCEPT")
         print("[2] APENAS AUTO PICK")
-        print("[3] AUTO PICK E AUTO ACCEPT\n \n")
+        print("[3] AUTO PICK E AUTO ACCEPT (Ainda não disponível) \n \n") 
         print("OBS: Caso esteja usando mais de um monitor, por favor, deixe o Client no monitor principal para que o bot possa funcionar corretamente...")
         
         while True:
             try:
-                self.escolha = int(input())
+                escolha = int(input())
                 break
             except ValueError:
                 print("[ERRO] Escolha um número inteiro, caso queira encerrar o app, escolha um número não mencionado!")
 
-        if self.escolha == 1:
+        if escolha == 1:
             self.autoaccept()
         
-        if self.escolha == 2:
-            self.autopick()
+        if escolha == 2:
+            champ_select = str(input("Digite o nome do campeão a ser escolhido: "))
+            # champ_ban = str(input('Digite o nome do campeão a ser banido: '))
+            self.autopick(pick=champ_select)
 
     def get_elements(self, l, t, w, h, value):
         listWindow = pygetwindow.getAllTitles()  #lista nome de todos os apps ativos no windows
@@ -40,10 +42,10 @@ class Start():
         else:
             try:
                 hwnd_lol = pygetwindow.getWindowsWithTitle('League of Legends')[0] # pega o codigo da janela do lol
-                left, top, width, height = hwnd_lol.left, hwnd_lol.top, hwnd_lol.width, hwnd_lol.height
+                self.left, self.top, self.width, self.height = hwnd_lol.left, hwnd_lol.top, hwnd_lol.width, hwnd_lol.height
 
-                x1, y1, x2, y2 = (l / 1024) * width, (t / 576) * height, (w / 1024) * width, (h / 576) * height
-                self.region = (left + x1, top +y1, x2 - x1, y2 - y1)
+                x1, y1, x2, y2 = (l / 1024) * self.width, (t / 576) * self.height, (w / 1024) * self.width, (h / 576) * self.height
+                self.region = (self.left + x1, self.top +y1, x2 - x1, y2 - y1)
 
                 screenshot = pyautogui.screenshot(region=(self.region))
                 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
@@ -62,15 +64,21 @@ class Start():
                 pyautogui.click(self.region)
                 sleep(12)
 
-            
 
-
-    def autopick(self):
+    def autopick(self, pick):
         while True:
             if self.get_elements(344, 11, 478, 37, 'SELECIONE'):
+                pyautogui.click(self.left + (631 / 1024) * self.width, self.top + (84 / 576) * self.height)
+                pyautogui.write(pick)
+                sleep(1)
+
+                pyautogui.click(self.left + (309 / 1024) * self.width, self.top + (128 / 576) * self.height)
+                sleep(1)
+
+                pyautogui.click(self.left  + (506 / 1024) * self.width, self.top + (488 / 576) * self.height)
+                sleep(100)
+            if self.get_elements(385, 12, 464, 36, 'BANA'):
                 pass
-            
-            
                                 
     
 Start().verify()
