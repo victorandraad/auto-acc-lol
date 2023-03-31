@@ -1,2 +1,3 @@
 # LoL - AutoPick and Accept Queue - BOT
-Para usá-lo você vai precisar de baixar o Tesseract e coloca-lo na mesma pasta que o arquivo .py
+Para usá-lo você vai precisar de baixar o Tesseract.
+Troque o caminho dele na linha 59 do  arquivo main.py
