@@ -14,7 +14,7 @@ class Start():
                 print(f'League of Legends encontrado.')
                 break
             else:
-                input('O League of Legends precisa estar aberto para que o programa funcione \n \nPressione ENTER para continuar...')
+                input(f'O League of Legends precisa estar aberto para que o programa funcione. \n \nPressione ENTER para continuar...')
 
         print("Digite o número que corresponde ao seu desejo: ")
         print("[1] APENAS AUTO ACCEPT")
