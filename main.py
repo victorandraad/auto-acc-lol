@@ -1,11 +1,11 @@
 import pygetwindow, pyautogui
 import pytesseract
+import threading
 from time import sleep
 
 class Start():
-    pyautogui.FAILSAFE = False 
-    pyautogui.PAUSE = 0.5
-    
+    pyautogui.FAILSAFE = False
+    pyautogui.PAUSE = 0.2
     def verify(self):
         while True:
             listWindow = pygetwindow.getAllTitles()  #lista nome de todos os apps ativos no windows
@@ -19,7 +19,7 @@ class Start():
         print("Digite o número que corresponde ao seu desejo: ")
         print("[1] APENAS AUTO ACCEPT")
         print("[2] APENAS AUTO PICK")
-        print("[3] AUTO PICK E AUTO ACCEPT (Ainda não disponível) \n \n") 
+        print("[3] AUTO PICK E AUTO ACCEPT \n \n") 
         print("OBS: Caso esteja usando mais de um monitor, por favor, deixe o Client no monitor principal para que o bot possa funcionar corretamente...")
         
         while True:
@@ -32,11 +32,14 @@ class Start():
         if escolha == 1:
             self.autoaccept()
         
-        if escolha == 2:
+        else:
             champ_select = str(input("Digite o nome do campeão a ser escolhido: "))
             # champ_ban = str(input('Digite o nome do campeão a ser banido: '))
+            if escolha == 3:
+                autoacc = threading.Thread(target=self.autoaccept)
+                autoacc.start()
             self.autopick(pick=champ_select)
-
+        
     def get_text(self, value, search=(int, int, int, int)):
         listWindow = pygetwindow.getAllTitles()  #lista nome de todos os apps ativos no windows
 
@@ -82,7 +85,7 @@ class Start():
 
     def autopick(self, pick):
         while True:
-            if self.get_text(search=(344, 11, 478, 37), value='SELECIONE'):
+            if self.get_text(search=(475, 478, 551, 493), value='CONFIRMAR'):
                 self.click_point(region=(631, 84), rverify=(588, 73, 615, 92)) #clicar no buscar
                 pyautogui.write(pick)
 
