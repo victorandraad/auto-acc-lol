@@ -43,7 +43,7 @@ class Start():
         if escolha == 1:
             self.autoaccept()
         
-        else:
+        elif escolha == 2 or escolha == 3:
             champ_select = str(input("Digite o nome do campeão a ser escolhido: "))
             # champ_ban = str(input('Digite o nome do campeão a ser banido: '))
             if escolha == 3:
@@ -53,7 +53,6 @@ class Start():
         
     def get_text(self, value, search=(int, int, int, int)):
         listWindow = getAllTitles()  #lista nome de todos os apps ativos no windows
-
         if 'League of Legends (TM) Client' in listWindow:
             sleep(60)
             return
@@ -67,7 +66,7 @@ class Start():
                 self.region = (self.left + x1, self.top +y1, x2 - x1, y2 - y1)
 
                 appscreenshot = screenshot(region=(self.region))
-                pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+                pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
             except IndexError:
                 input(f"{red}[ERRO] {white}Erro ao encontrar o League of Legends, por favor, esteja segura de que ele está aberto!")
             try:
@@ -75,12 +74,13 @@ class Start():
                 if value in texto:
                     return True
                 sleep(4)
-            except:
+            except (AttributeError, SystemError):
                 pass
 
     def click_point(self, region=(int, int), rverify=(int, int, int, int)):
         rx, ry = position()
         s1 = screenshot(region=(rverify[0], rverify[1], rverify[2], rverify[3]))
+        sleep(PAUSE)
         click(self.left + (region[0] / 1024) * self.width, self.top + (region[1] / 576) * self.height, duration=0)
         moveTo(rx, ry, duration=0)
 
@@ -107,7 +107,4 @@ class Start():
 
                 sleep(100)
 
-            if self.get_text(search=(385, 12, 464, 36), value='BANA'):
-                pass         
-    
 Start().verify()
