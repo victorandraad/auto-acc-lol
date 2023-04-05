@@ -1,56 +1,11 @@
-from configparser import ConfigParser
 from threading import Thread
 from pytesseract import pytesseract, image_to_string
 from pyautogui import FAILSAFE, PAUSE, screenshot, position, click, moveTo, write
 from pygetwindow import getAllTitles, getWindowsWithTitle
 from time import sleep
+from tkinter import *
 
-settings = ConfigParser()
-settings.read('settings.ini')
-
-FAILSAFE = False
-PAUSE = float(settings.get('config', 'delay'))
-
-#CORES
-reset_color, bold, red, green, yellow = '\33[m', '\33[1m', '\33[1;31m', '\33[1;32m', '\33[1;33m'
-blue, magenta, cyan, white = '\33[1;34m', '\33[1;35m', '\33[1;36m', '\33[1;37m'
-
-class Start():
-
-    def verify(self):
-        while True:
-            listWindow = getAllTitles()  #lista nome de todos os apps ativos no windows
-            #procura League of Legendds em listWindow
-            if 'League of Legends' in listWindow:
-                print(f'{white}League of Legends {green}encontrado.{reset_color}')
-                break
-            else:
-                input(f'{white}O League of Legends {red}precisa estar aberto {white}para que o programa funcione. \n \n{white}Pressione ENTER para continuar...{reset_color}')
-
-        print(f"{white}Digite o número que corresponde ao seu desejo: ")
-        print(f"{cyan}[1] {white}APENAS AUTO ACCEPT")
-        print(f"{cyan}[2] {white}APENAS AUTO PICK")
-        print(f"{magenta}[3] {white}AUTO PICK E AUTO ACCEPT \n \n") 
-        print(f"{red}OBS: {white}Caso esteja usando mais de um monitor, por favor, deixe o Client no monitor principal para que o bot possa funcionar corretamente...")
-        
-        while True:
-            try:
-                escolha = int(input())
-                break
-            except ValueError:
-                print(f"{red}[ERRO] {white}Escolha um número inteiro, caso queira encerrar o app, escolha um número não mencionado!")
-
-        if escolha == 1:
-            self.autoaccept()
-        
-        elif escolha == 2 or escolha == 3:
-            champ_select = str(input("Digite o nome do campeão a ser escolhido: "))
-            # champ_ban = str(input('Digite o nome do campeão a ser banido: '))
-            if escolha == 3:
-                autoacc = Thread(target=self.autoaccept)
-                autoacc.start()
-            self.autopick(pick=champ_select)
-        
+class Start():      
     def get_text(self, value, search=(int, int, int, int)):
         listWindow = getAllTitles()  #lista nome de todos os apps ativos no windows
         if 'League of Legends (TM) Client' in listWindow:
@@ -68,7 +23,7 @@ class Start():
                 appscreenshot = screenshot(region=(self.region))
                 pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
             except IndexError:
-                input(f"{red}[ERRO] {white}Erro ao encontrar o League of Legends, por favor, esteja segura de que ele está aberto!")
+                input(f"[ERRO] Erro ao encontrar o League of Legends, por favor, esteja segura de que ele está aberto!")
             try:
                 texto = image_to_string(appscreenshot)
                 if value in texto:
@@ -89,7 +44,7 @@ class Start():
 
     def autoaccept(self):
         while True:
-            if self.get_text(search=(475, 436, 551, 453), value=settings.get('config', 'accepttext')):
+            if self.get_text(search=(475, 436, 551, 453), value='ACEITAR'):
                 if self.click_point(region=(475, 436), rverify=(475, 436, 551, 453)) == False:
                     pass
                 else:
@@ -97,7 +52,7 @@ class Start():
 
     def autopick(self, pick):
         while True:
-            if self.get_text(search=(475, 478, 551, 493), value=settings.get('config', 'confirmbutton_text')):
+            if self.get_text(search=(475, 478, 551, 493), value='CONFIRMAR'):
                 self.click_point(region=(631, 84), rverify=(588, 73, 615, 92)) #clicar no buscar
                 write(pick)
 
@@ -107,4 +62,42 @@ class Start():
 
                 sleep(100)
 
-Start().verify()
+class Interface():
+    def __init__(self):
+        Thread(target=self.gui).start()
+
+    def gui(self):
+        window = Tk()
+        window.title("QueueLol")
+        window.geometry("350x300")
+        window.iconphoto(False, PhotoImage(file='logo.png'))
+        self.acc = IntVar()
+        self.pick = IntVar()  
+
+        top_label = Label(window, width=400, height=1, text=("==Qu=uu=e==e=lo==l=l==="), font=("Arial 15 bold"), fg="white", bg="#429ef5")
+        top_label.pack()
+
+        autoacc_label = Label(window, width=8, height=2, text="Autoacc", font=("Arial 15"))
+        autoacc_label.pack(side=LEFT, anchor=NW)
+
+        autoacc_button = Checkbutton(window, height=3, variable=self.acc, command=self.manager_acc)
+        autoacc_button.pack(side=LEFT, anchor=NW)
+
+        self.autopick_label = Label(window, width=8, height=2, text="Autopick", font=("Arial 15"))
+        self.autopick_label.pack(side=LEFT, anchor=NW)
+
+        autopick_button = Checkbutton(window, height=3, variable=self.pick, command=self.manager_pick)
+        autopick_button.pack(side=LEFT, anchor=NW)
+
+        window.mainloop()
+
+    def manager_acc(self):
+        if self.acc.get():
+            print("iniciado")
+            sacc = Thread(target=Start().autoaccept)
+            sacc.start()
+    
+    def manager_pick(self):
+        self.autopick_label['text'] = 'Insp.'
+            
+Interface()
