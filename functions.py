@@ -3,6 +3,7 @@ from pytesseract import pytesseract, image_to_string
 from pyautogui import FAILSAFE, PAUSE, screenshot, position, click, moveTo, write
 from pygetwindow import getAllTitles, getWindowsWithTitle
 from time import sleep
+from threading import Thread
 from tkinter import *
 
 config = ConfigParser()
@@ -30,7 +31,8 @@ class Start:
                 appscreenshot = screenshot(region=(self.region))
                 pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
             except IndexError:
-                print("a")
+                pass
+
             try:
                 texto = image_to_string(appscreenshot)
                 if value in texto:
@@ -49,24 +51,43 @@ class Start:
         if s1 == screenshot(region=(rverify[0], rverify[1], rverify[2], rverify[3])):
             return False
 
-    def autoacc(self):
-        while True:
-            print("a")
+    def autoacc(self, Nada=None):
+        while self.acc_on:
             if self.get_text(self=Start, search=(475, 436, 551, 453), value=config.get('language', 'accepttext')):
-                if self.click_point(sellf=Start, region=(475, 436), rverify=(475, 436, 551, 453)) == False:
+                if self.click_point(self=Start, region=(475, 436), rverify=(475, 436, 551, 453)) == False:
                     pass
                 else:
-                    sleep(12)
+                    self.sleepAcc = sleep(12)
 
-    def autopick(self, pick, pick_onoff):
-        while pick_onoff:
-            print('a')
+    def autopick(self, Nada=None):
+        while self.autopick_on:
             if self.get_text(self=Start, search=(475, 478, 551, 493), value=config.get('language', 'confirmbutton_text')):
                 self.click_point(self=Start, region=(631, 84), rverify=(588, 73, 615, 92)) #clicar no buscar
-                write(pick)
+                print(self.pick)
+                write(self.pick)
 
                 self.click_point(self=Start, region=(309, 128), rverify=(283, 106, 335, 158)) #clicar no champ
 
                 self.click_point(self=Start, region=(506, 488), rverify=(465, 369, 569, 410)) #clicar em confirmar
 
-                sleep(100)
+                self.sleepPick = sleep(100)
+
+    def onoff_threads(self, method=None, champ=None):
+        self.pickThread = Thread(target=self.autopick, args=(Start, None))
+        self.accThread = Thread(target=self.autoacc, args=(Start, None))
+        self.pick = champ
+
+        if method == 'pick__off':
+            self.autopick_on = False
+
+        elif method == 'pick__on':
+            self.autopick_on = True
+            self.pickThread.start()
+
+        if method == 'acc__off':
+            self.acc_on = False
+
+        elif method == 'acc__on':
+            self.acc_on = True
+            self.accThread.start()
+        

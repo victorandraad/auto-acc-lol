@@ -16,18 +16,17 @@ class App:
         self.window.resizable(width=False, height=False)
 
         self.search_assistant = ''
-        self.champs = ''
         self.champ = 'Aatrox'
         self.index = ''
         self.champ_image = None
         self.pick_status = BooleanVar()
         self.acc_status = BooleanVar()
 
-        autopick_button = Checkbutton(self.window, width=9, height=1, text="Autopick", bg='#C33128', fg='black', indicatoron=0, activebackground='#C33128', activeforeground='black', font=('Imperial 12 bold'), command=self.get_champ, variable=self.pick_status, onvalue=True, offvalue=False)
-        autopick_button.place(x=219, y=75)
+        self.autopick_button = Checkbutton(self.window, width=9, height=1, text="Autopick", bg='#C33128', fg='black', indicatoron=0, activebackground='#C33128', activeforeground='black', font=('Imperial 12 bold'), command=self.autopick_, variable=self.pick_status, onvalue=True, offvalue=False)
+        self.autopick_button.place(x=219, y=75)
 
-        autoacc_button = Checkbutton(self.window, width=9, height=1, text="Autoacc", bg='#C33128', fg='black', indicatoron=0, activebackground='#C33128', activeforeground='black', font=('Imperial 12 bold'), command=self.autoacc_, variable=self.acc_status, onvalue=True, offvalue=False)
-        autoacc_button.place(x=219, y=132)
+        self.autoacc_button = Checkbutton(self.window, width=9, height=1, text="Autoacc", bg='#C33128', fg='black', indicatoron=0, activebackground='#C33128', activeforeground='black', font=('Imperial 12 bold'), command=self.autoacc_, variable=self.acc_status, onvalue=True, offvalue=False)
+        self.autoacc_button.place(x=219, y=132)
 
         self.champImage = Label(self.window)
         self.champImage.place(x=42,y=51)
@@ -43,7 +42,7 @@ class App:
 
         self.champList.bind('<KeyRelease>', self.on_keyrelease)
 
-        confirm = Button(self.window,  width=10, height=1, font=("Imperial 12 bold"), text="Confirm", command=self.get_champ)
+        confirm = Button(self.window,  width=10, height=1, font=("Imperial 12 bold"), text="Confirm", command=self.confirm__)
         confirm.place(x=138, y=220)
 
         self.show_image()
@@ -57,14 +56,13 @@ class App:
             self.index = 0
         path = f'champs'
         files = os.listdir(path)
-        self.champs = get_champs()[0]
 
         if not f'{self.champList.get(self.index)}.png' in files:
             url = get_image()[self.index]
-            filename = rf'{path}\{self.champs[self.index]}.png'
+            filename = rf'{path}\{self.champ}.png'
             urllib.request.urlretrieve(url, filename)
 
-        self.champ_image = PhotoImage(file=rf'{path}\{self.champs[self.index]}.png')
+        self.champ_image = PhotoImage(file=rf'{path}\{self.champ}.png')
         self.champImage['image'] = self.champ_image
     
     def on_keyrelease(self, event):
@@ -88,21 +86,42 @@ class App:
                 self.champList.selection_set(j)
                 self.champList.activate(j)
                 self.champList.see(j)
+                self.champ = list[j]
                 break
 
-    def get_champ(self):
-        self.show_image()
+    def autopick_(self):
         if self.pick_status.get():
-            pick_onoff = True
-            Thread(target=Start.autopick, args=(Start, self.champ, pick_onoff)).start()
+            Start.onoff_threads(Start, 'pick__on', self.champ)
+
         else:
-            Start.autopick.pick_onoff = False
+            Start.onoff_threads(Start, 'pick__off')
+            cdThread = Thread(target=self.cd, args=(self.autopick_button, 100, 'Autopick', self.autopick_))
+            cdThread.start()
 
     def autoacc_(self):
         if self.acc_status.get():
-            print('a')
+            Start.onoff_threads(Start, 'acc__on')
         else:
-            print('b')
+            Start.onoff_threads(Start, 'acc__off')
+            cdThread = Thread(target=self.cd, args=(self.autoacc_button, 12, 'Autoacc', self.autoacc_))
+            cdThread.start()
+  
+    def confirm__(self):
+        Start.onoff_threads(Start, None, self.champ)
+        self.show_image()
+        self.search_assistant = ''
 
+    def cd(self, button, time, default_message, default_command):
+        for c in range(time, 0, -1):
+            print(c)
+            button['text'] = f'in {c} sec'
+            button['command'] = ''
+            sleep(1)
+        button['text'] = default_message
+        button['command'] = default_command
+
+ 
 app = App()
 app.window.mainloop()
+Start.onoff_threads(Start, 'pick__off')
+Start.onoff_threads(Start, 'acc__off')
