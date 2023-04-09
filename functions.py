@@ -1,17 +1,18 @@
 from configparser import ConfigParser
-from threading import Thread
 from pytesseract import pytesseract, image_to_string
 from pyautogui import FAILSAFE, PAUSE, screenshot, position, click, moveTo, write
 from pygetwindow import getAllTitles, getWindowsWithTitle
 from time import sleep
 from tkinter import *
 
+config = ConfigParser()
+config.read('settings.ini')
+PAUSE = config.get('config', 'delay')
+PAUSE = float(PAUSE)
+FAILSAFE = False
+
 class Start:
-    config = ConfigParser()
-    config.read('settings.ini')
-    PAUSE = config.get('config', 'delay')
-    FAILSAFE = False
-    
+  
     def get_text(self, value, search=(int, int, int, int)):
         listWindow = getAllTitles()  #lista nome de todos os apps ativos no windows
         if 'League of Legends (TM) Client' in listWindow:
@@ -50,20 +51,22 @@ class Start:
 
     def autoacc(self):
         while True:
-            if self.get_text(search=(475, 436, 551, 453), value=self.config('language', 'accepttext')):
-                if self.click_point(region=(475, 436), rverify=(475, 436, 551, 453)) == False:
+            print("a")
+            if self.get_text(self=Start, search=(475, 436, 551, 453), value=config.get('language', 'accepttext')):
+                if self.click_point(sellf=Start, region=(475, 436), rverify=(475, 436, 551, 453)) == False:
                     pass
                 else:
                     sleep(12)
 
-    def autopick(self, pick):
-        while True:
-            if self.get_text(search=(475, 478, 551, 493), value=self.config('language', 'confirmbutton_text')):
-                self.click_point(region=(631, 84), rverify=(588, 73, 615, 92)) #clicar no buscar
+    def autopick(self, pick, pick_onoff):
+        while pick_onoff:
+            print('a')
+            if self.get_text(self=Start, search=(475, 478, 551, 493), value=config.get('language', 'confirmbutton_text')):
+                self.click_point(self=Start, region=(631, 84), rverify=(588, 73, 615, 92)) #clicar no buscar
                 write(pick)
 
-                self.click_point(region=(309, 128), rverify=(283, 106, 335, 158)) #clicar no champ
+                self.click_point(self=Start, region=(309, 128), rverify=(283, 106, 335, 158)) #clicar no champ
 
-                self.click_point(region=(506, 488), rverify=(465, 369, 569, 410)) #clicar em confirmar
+                self.click_point(self=Start, region=(506, 488), rverify=(465, 369, 569, 410)) #clicar em confirmar
 
                 sleep(100)
