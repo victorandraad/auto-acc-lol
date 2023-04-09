@@ -1,4 +1,4 @@
-# BOT EM MODIFICAÇÔES INTENSAS
+# RELEASE 2.0
 
 This app was developed for League of Legends players who want to automate the process of accepting matches and choosing champions.
 
