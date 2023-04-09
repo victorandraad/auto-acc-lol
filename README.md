@@ -1,10 +1,30 @@
 # BOT EM MODIFICAÇÔES INTENSAS
 
-A versão antiga está funcionando, mas agora eu preciso fazer uma interface gráfica e aprender a lidar com esses elementos...
-Se você procura usar o bot, procure pelo release, é um .exe que já vem com  as dependencias.
+This app was developed for League of Legends players who want to automate the process of accepting matches and choosing champions.
 
-*** O bot pode ter bugs de caracteres visuais para quem não usa o windows 11
-*** Abra o local do arquivo e vá em settings.ini caso ele esteja indo muito rápido e mude o delay
-*** Caso seu lol esteja em outro idioma você pode testar trocar as palavras chaves que estão em settings.ini para as do idioma do seu jogo, pode não acabar funcionando, já que ele pega o nome pelo pixel em específo, transforma e texto e compara se é igual, fiz isso para evitar imagens e erros.
+#Features:
 
-Caso tenha alguma dúvida, pode me contatar.
+Auto-accept matches: the app automatically monitors the LoL client and accepts matches as soon as they appear.
+Autopick champions: based on your chosen settings, the app automatically selects a champion for you, without you needing to waste time manually choosing.
+User-friendly graphical interface: the app's interface was designed to be simple and intuitive, with clear and easy-to-understand options.
+
+![plot](C:\Users\vitin\OneDrive\Documents\GitHub\interfaceGrafica\gui.png)
+
+#Requirements:
+
+The app requires the League of Legends client to be open and running.
+
+#How to use:
+
+Download the app file and extract it to a folder of your choice.
+Open the "settings.ini" (default: portuguese) file and adjust the options according to your preferences. You can choose the language and delays.
+Start the app by clicking on the "Woontt.exe" file.
+Leave the app running while you play or do other activities.
+
+#Notes:
+
+The app may not work correctly in all computer configurations and situations. If you encounter any problems, please contact the developer for help.
+
+#Acknowledgments:
+
+This app was developed by Victor, based on open-source code and resources available on the internet. Special thanks to the LoL developer community, who shared their knowledge and made this app possible.
