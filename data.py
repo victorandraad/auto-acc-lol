@@ -1,3 +1,4 @@
+#Release
 import requests
 
 def get_champs():

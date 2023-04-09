@@ -1,3 +1,4 @@
+#Release 2.0
 from configparser import ConfigParser
 from pytesseract import pytesseract, image_to_string
 from pyautogui import FAILSAFE, PAUSE, screenshot, position, click, moveTo, write
@@ -90,4 +91,4 @@ class Start:
         elif method == 'acc__on':
             self.acc_on = True
             self.accThread.start()
-        
+         2.0
