@@ -1,7 +1,7 @@
 from tkinter import *
 from data import *
+from functions import *
 from time import sleep
-import functions
 import urllib.request
 import os
 
@@ -15,6 +15,7 @@ search_assistant = ''
 champs = ''
 index = ''
 champ_image = None
+pick_status = BooleanVar()
 
 # Download image
 def show_image():
@@ -65,13 +66,17 @@ def on_keyrelease(event):
             break
 
 def get_champ():
+    if pick_status.get():
+        print("a")
+    else:
+        print('b')
     show_image()
-    functions.autopick(champs[index])
+    # functions.autopick(champs[index])
 
-autopick_button = Checkbutton(window, width=9, height=1, text="Autopick", bg='#C33128', fg='black', indicatoron=0, activebackground='#C33128', activeforeground='black', font=('Imperial 12 bold'), command=get_champ)
+autopick_button = Checkbutton(window, width=9, height=1, text="Autopick", bg='#C33128', fg='black', indicatoron=0, activebackground='#C33128', activeforeground='black', font=('Imperial 12 bold'), command=get_champ, variable=pick_status, onvalue=True, offvalue=False)
 autopick_button.place(x=219, y=75)
 
-autoacc_button = Checkbutton(window, width=9, height=1, text="Autoacc", bg='#C33128', fg='black', indicatoron=0, activebackground='#C33128', activeforeground='black', font=('Imperial 12 bold'),)
+autoacc_button = Checkbutton(window, width=9, height=1, text="Autoacc", bg='#C33128', fg='black', indicatoron=0, activebackground='#C33128', activeforeground='black', font=('Imperial 12 bold'), command=Start.autoacc)
 autoacc_button.place(x=219, y=132)
 
 champImage = Label(window)
