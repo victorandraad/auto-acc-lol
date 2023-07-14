@@ -64,7 +64,6 @@ class Start:
         while self.autopick_on:
             if self.get_text(self=Start, search=(475, 478, 551, 493), value=config.get('language', 'confirmbutton_text')):
                 self.click_point(self=Start, region=(631, 84), rverify=(588, 73, 615, 92)) #clicar no buscar
-                print(self.pick)
                 write(self.pick)
 
                 self.click_point(self=Start, region=(309, 128), rverify=(283, 106, 335, 158)) #clicar no champ

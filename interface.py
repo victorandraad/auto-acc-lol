@@ -114,7 +114,6 @@ class App:
 
     def cd(self, button, time, default_message, default_command):
         for c in range(time, 0, -1):
-            print(c)
             button['text'] = f'in {c} sec'
             button['command'] = ''
             sleep(1)
