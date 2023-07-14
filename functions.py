@@ -71,7 +71,7 @@ class Start:
 
                 self.click_point(self=Start, region=(506, 488), rverify=(465, 369, 569, 410)) #clicar em confirmar
 
-                self.sleepPick = sleep(100)
+                self.sleepPick = sleep(12)
 
     def onoff_threads(self, method=None, champ=None):
         self.pickThread = Thread(target=self.autopick, args=(Start, None))
@@ -91,4 +91,3 @@ class Start:
         elif method == 'acc__on':
             self.acc_on = True
             self.accThread.start()
-         2.0

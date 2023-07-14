@@ -96,7 +96,7 @@ class App:
 
         else:
             Start.onoff_threads(Start, 'pick__off')
-            cdThread = Thread(target=self.cd, args=(self.autopick_button, 100, 'Autopick', self.autopick_))
+            cdThread = Thread(target=self.cd, args=(self.autopick_button, 12, 'Autopick', self.autopick_))
             cdThread.start()
 
     def autoacc_(self):
