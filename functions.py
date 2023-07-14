@@ -1,15 +1,13 @@
 #Release 2.0
-from configparser import ConfigParser
 from pytesseract import pytesseract, image_to_string
 from pyautogui import FAILSAFE, PAUSE, screenshot, position, click, moveTo, write
 from pygetwindow import getAllTitles, getWindowsWithTitle
 from time import sleep
 from threading import Thread
 from tkinter import *
+from interface import config, language
 
-config = ConfigParser()
-config.read('settings.ini')
-PAUSE = config.get('config', 'delay')
+PAUSE = config['delay']
 PAUSE = float(PAUSE)
 FAILSAFE = False
 
@@ -54,7 +52,7 @@ class Start:
 
     def autoacc(self, Nada=None):
         while self.acc_on:
-            if self.get_text(self=Start, search=(475, 436, 551, 453), value=config.get('language', 'accepttext')):
+            if self.get_text(self=Start, search=(475, 436, 551, 453), value=language['accepttext']):
                 if self.click_point(self=Start, region=(475, 436), rverify=(475, 436, 551, 453)) == False:
                     pass
                 else:
@@ -62,7 +60,7 @@ class Start:
 
     def autopick(self, Nada=None):
         while self.autopick_on:
-            if self.get_text(self=Start, search=(475, 478, 551, 493), value=config.get('language', 'confirmbutton_text')):
+            if self.get_text(self=Start, search=(475, 478, 551, 493), value=language['confirmbutton_text']):
                 self.click_point(self=Start, region=(631, 84), rverify=(588, 73, 615, 92)) #clicar no buscar
                 write(self.pick)
 
