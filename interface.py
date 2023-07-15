@@ -14,7 +14,7 @@ with open('config.yaml') as f:
 
 if config['language'] == '':
     win_language = locale.getdefaultlocale()
-    config['language'] = win_language[0]
+    config['language'] = win_language[0] + win_language
         
 with open('config.yaml', 'w') as f:
     yaml.dump(config, f)
@@ -39,31 +39,47 @@ class App:
         self.acc_status = BooleanVar()
 
         self.autopick_button = Checkbutton(self.window, width=9, height=1, text="Autopick", bg='#C33128', fg='black', indicatoron=0, activebackground='#C33128', activeforeground='black', font=('Imperial 12 bold'), command=self.autopick_, variable=self.pick_status, onvalue=True, offvalue=False)
-        self.autopick_button.place(x=219, y=75)
+        self.autopick_button.place(x=219, y=50)
 
         self.autoacc_button = Checkbutton(self.window, width=9, height=1, text="Autoacc", bg='#C33128', fg='black', indicatoron=0, activebackground='#C33128', activeforeground='black', font=('Imperial 12 bold'), command=self.autoacc_, variable=self.acc_status, onvalue=True, offvalue=False)
-        self.autoacc_button.place(x=219, y=132)
+        self.autoacc_button.place(x=219, y=100)
+
+        # self.language_list = Listbox(self.window, width=10, height=1, bg='#202020', fg="white", font=("Imperial 12 bold"),)
+        # self.language_list.place(x=221, y=130)
 
         self.champImage = Label(self.window)
-        self.champImage.place(x=42,y=51)
+        self.champImage.place(x=35,y=40)
 
         #put last champ image
         self.champ_image = PhotoImage(file=rf'champs\{self.champ}.png')
         self.champImage['image'] = self.champ_image
 
         self.champList = Listbox(self.window, width=12, height=1, bg='#C33128', fg="black", font=("Imperial 12 bold"),)
-        self.champList.place(x=45, y=180)
+        self.champList.place(x=41, y=168)
 
         #insert all champions name
         champs, version = get_champs()
         del(version)
         for n, champ in enumerate(champs):
             self.champList.insert(n, champ)
+
+        #insert all default languages
+        # langs = os.listdir('languages')
+        # for n, lang in enumerate(langs):
+        #     if lang == 'en.yaml':
+        #          lang = 'English'
+
+        #     if lang == 'es.yaml':
+        #          lang = 'Español'
+
+        #     if lang == 'pt.yaml':
+        #          lang = 'Português'
+        #     self.language_list.insert(n, lang)
         
         self.champList.see(config['index_champion']) # See last champ name
         self.champList.bind('<KeyRelease>', self.on_keyrelease)
 
-        confirm = Button(self.window,  width=10, height=1, font=("Imperial 12 bold"), text="Confirm", command=self.confirm__)
+        confirm = Button(self.window,  width=10, height=1, font=("Imperial 12 bold"), text=language['confirmbutton_text'], command=self.confirm__)
         confirm.place(x=138, y=220)
     
     def show_image(self):
