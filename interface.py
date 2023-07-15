@@ -33,9 +33,8 @@ class App:
         self.window.resizable(width=False, height=False)
 
         self.search_assistant = ''
-        self.champ = 'Aatrox'
-        self.index = ''
-        self.champ_image = None
+        self.champ = config['last_champion']
+        self.index = config['index_champion']
         self.pick_status = BooleanVar()
         self.acc_status = BooleanVar()
 
@@ -48,6 +47,10 @@ class App:
         self.champImage = Label(self.window)
         self.champImage.place(x=42,y=51)
 
+        #put last champ image
+        self.champ_image = PhotoImage(file=rf'champs\{self.champ}.png')
+        self.champImage['image'] = self.champ_image
+
         self.champList = Listbox(self.window, width=12, height=1, bg='#C33128', fg="black", font=("Imperial 12 bold"),)
         self.champList.place(x=45, y=180)
 
@@ -56,30 +59,29 @@ class App:
         del(version)
         for n, champ in enumerate(champs):
             self.champList.insert(n, champ)
-
+        
+        self.champList.see(config['index_champion']) # See last champ name
         self.champList.bind('<KeyRelease>', self.on_keyrelease)
 
         confirm = Button(self.window,  width=10, height=1, font=("Imperial 12 bold"), text="Confirm", command=self.confirm__)
         confirm.place(x=138, y=220)
-
-        self.show_image()
-
-        # Download image
     
     def show_image(self):
         try:
             self.index = self.champList.curselection()[0]
         except IndexError:
             self.index = 0
-        path = f'champs'
-        files = os.listdir(path)
 
-        if not f'{self.champList.get(self.index)}.png' in files:
+        self.champ = self.champList.get(self.index)
+        files = os.listdir('champs')
+        
+        # print(self.champList.get(self.index)) Nome do campeão selecionado
+        if not f'{self.champ}.png' in files:
             url = get_image()[self.index]
-            filename = rf'{path}\{self.champ}.png'
+            filename = rf'champs\{self.champ}.png'
             urllib.request.urlretrieve(url, filename)
 
-        self.champ_image = PhotoImage(file=rf'{path}\{self.champ}.png')
+        self.champ_image = PhotoImage(file=rf'champs\{self.champ}.png')
         self.champImage['image'] = self.champ_image
     
     def on_keyrelease(self, event):
@@ -97,8 +99,8 @@ class App:
         del(v)
         for self.champ in list:
             if self.search_assistant in self.champ:
-                i = list.index(self.champ)
                 j = self.champList.get(0, END).index(self.champ)
+                print(j)
                 self.champList.select_clear(0, END)
                 self.champList.selection_set(j)
                 self.champList.activate(j)
@@ -128,6 +130,11 @@ class App:
         self.show_image()
         self.search_assistant = ''
 
+        config['last_champion'] = self.champ
+        config['index_champion'] = self.index
+        with open('config.yaml', 'w') as f:
+            yaml.dump(config, f)
+
     def cd(self, button, time, default_message, default_command):
         for c in range(time, 0, -1):
             button['text'] = f'in {c} sec'
@@ -136,8 +143,8 @@ class App:
         button['text'] = default_message
         button['command'] = default_command
 
- 
-app = App()
-app.window.mainloop()
-Start.onoff_threads(Start, 'pick__off')
-Start.onoff_threads(Start, 'acc__off')
+if __name__ == '__main__':
+    app = App()
+    app.window.mainloop()
+    Start.onoff_threads(Start, 'pick__off')
+    Start.onoff_threads(Start, 'acc__off')
