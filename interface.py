@@ -30,6 +30,7 @@ class App:
         self.window.geometry("359x265")
         self.window.title("Woontt-")
         self.window.config(bg='#202020')
+        self.window.iconbitmap('Woontt.ico')
         self.window.resizable(width=False, height=False)
 
         self.search_assistant = ''
