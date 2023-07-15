@@ -6,7 +6,23 @@ from time import sleep
 from threading import Thread
 import urllib.request
 import os
+import yaml
+import locale
 
+with open('config.yaml') as f:
+    config = yaml.safe_load(f)
+
+if config['language'] == '':
+    win_language = locale.getdefaultlocale()
+    config['language'] = win_language[0]
+        
+with open('config.yaml', 'w') as f:
+    yaml.dump(config, f)
+
+language_Inicials = config['language'][0], config['language'][1]
+
+with open(f'languages\{language_Inicials[0]}{language_Inicials[1]}.yaml', 'r') as l:
+    language = yaml.safe_load(l)
 
 class App:
     def __init__(self):
