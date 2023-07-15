@@ -142,7 +142,6 @@ class App:
             cdThread.start()
   
     def confirm__(self):
-        Start.onoff_threads(Start, None, self.champ)
         self.show_image()
         self.search_assistant = ''
 
@@ -150,6 +149,7 @@ class App:
         config['index_champion'] = self.index
         with open('config.yaml', 'w') as f:
             yaml.dump(config, f)
+        Start.onoff_threads(Start, None, config['last_champion'])
 
     def cd(self, button, time, default_message, default_command):
         for c in range(time, 0, -1):
