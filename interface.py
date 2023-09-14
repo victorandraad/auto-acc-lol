@@ -2,6 +2,25 @@ import time
 import flet as ft
 from datetime import datetime
 
+class Botao_feature(ft.UserControl):
+    def criar(name, position=None):
+
+        match position:
+            case "Left":
+                position = ft.LabelPosition.LEFT
+            case "Right":
+                position = ft.LabelPosition.RIGHT
+
+        btn = ft.Checkbox(
+        check_color="#0BE881",
+        fill_color={ft.MaterialState.SELECTED: "#0BE881", ft.MaterialState.DEFAULT: "#485460"},
+        width=124,
+        height=39,
+        label=name,
+        label_position=position,
+        )
+        return btn
+
 def main(page: ft.Page):
 
     page.title = "LCULeagueTools"
@@ -14,59 +33,16 @@ def main(page: ft.Page):
     page.window_maximizable = False
     page.bgcolor = "#1E272E"
     
-    acceptbtn = ft.Checkbox(
-        check_color="#0BE881",
-        fill_color={ft.MaterialState.SELECTED: "#0BE881", ft.MaterialState.DEFAULT: "#485460"},
-        width=124,
-        height=39,
-        label="AutoAccept"
-    )
+    acceptbtn = Botao_feature.criar("AutoAceitar")  
+    autorunebtn = Botao_feature.criar("AutoRuna")
+    autospellsbtn = Botao_feature.criar("AutoSpells")
     
-    autorunebtn = ft.Checkbox(
-        check_color="#0BE881",
-        fill_color={ft.MaterialState.SELECTED: "#0BE881", ft.MaterialState.DEFAULT: "#485460"},
-        width=124,
-        height=39,
-        label="AutoRuna"
-    )
-    
-    autospellsbtn = ft.Checkbox(
-        check_color="#0BE881",
-        fill_color={ft.MaterialState.SELECTED: "#0BE881", ft.MaterialState.DEFAULT: "#485460"},
-        width=124,
-        height=39,
-        label="AutoSpells"
-    )
-    
-    autobanbtn = ft.Checkbox(
-        check_color="#0BE881",
-        fill_color={ft.MaterialState.SELECTED: "#0BE881", ft.MaterialState.DEFAULT: "#485460"},
-        width=124,
-        height=39,
-        label="AutoBan",
-        # label_position=ft.LabelPosition.LEFT
-    )
-    
-    autododgebtn = ft.Checkbox(
-        check_color="#0BE881",
-        fill_color={ft.MaterialState.SELECTED: "#0BE881", ft.MaterialState.DEFAULT: "#485460"},
-        width=124,
-        height=39,
-        label="AutoDodge",
-        # label_position=ft.LabelPosition.LEFT
-    )
-    
-    automatchmakingbtn = ft.Checkbox(
-        check_color="#0BE881",
-        fill_color={ft.MaterialState.SELECTED: "#0BE881", ft.MaterialState.DEFAULT: "#485460"},
-        width=124,
-        height=39,
-        label="AutoMatchMaking",
-        # label_position=ft.LabelPosition.LEFT
-    )
+    autobanbtn = Botao_feature.criar("AutoBan", "Left")
+    autododgebtn = Botao_feature.criar("AutoDodge", "Left")
+    automatchmakingbtn = Botao_feature.criar("AutoMatchMaking", "Left")
 
     page.add(
-        ft.Row(
+        ft.Row(alignment=ft.MainAxisAlignment.END, width=400, height=400,
             controls=[
                 ft.Column(
                     [
@@ -85,44 +61,41 @@ def main(page: ft.Page):
                 ),
 
                 ft.Column(
-                    [
+                    controls=[
                         autobanbtn, 
                         autododgebtn, 
                         automatchmakingbtn
-                    ]
+                    ],
                 )
-            ]
+            ],
+            
         )
     )
 
-    page.add(
-        ft.Container(width=469, height=10)
-    )
-
-    page.add(
-        ft.Row(
-            controls=[
-                ft.Image(
-                    width = 80.16,
-                    height = 82.37,
-                    src="https://th.bing.com/th/id/OIP.KeRduNXcbnI6lIpUsQzq3gHaFj?pid=ImgDet&rs=1"
-                ),
-                ft.Column(
-                    [
-                        ft.Text("Você geralmente ganha jogando com: "),
-                        ft.Container(width=276, height=39),
-                        ft.Text("Você geralmente perde jogando contra: "),
-                        ft.Container(width=276, height=39) 
-                    ]
-                ),
-                ft.Image(
-                    width = 80.16,
-                    height = 82.37,
-                    src="https://th.bing.com/th/id/OIP.KeRduNXcbnI6lIpUsQzq3gHaFj?pid=ImgDet&rs=1"
-                ),
-            ]
-        )
-    )
+    # page.add(
+    #     ft.Row(
+    #         controls=[
+    #             ft.Image(
+    #                 width = 80.16,
+    #                 height = 82.37,
+    #                 src="https://th.bing.com/th/id/OIP.KeRduNXcbnI6lIpUsQzq3gHaFj?pid=ImgDet&rs=1"
+    #             ),
+    #             ft.Column(
+    #                 [
+    #                     ft.Text("Você geralmente ganha jogando com: "),
+    #                     ft.Container(width=276, height=39),
+    #                     ft.Text("Você geralmente perde jogando contra: "),
+    #                     ft.Container(width=276, height=39) 
+    #                 ]
+    #             ),
+    #             ft.Image(
+    #                 width = 80.16,
+    #                 height = 82.37,
+    #                 src="https://th.bing.com/th/id/OIP.KeRduNXcbnI6lIpUsQzq3gHaFj?pid=ImgDet&rs=1"
+    #             ),
+    #         ]
+    #     )
+    # )
 
 if __name__ == "__main__":
     ft.app(target=main)
