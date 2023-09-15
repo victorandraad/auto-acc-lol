@@ -1,23 +1,18 @@
 import time
 import flet as ft
+import functions
 from datetime import datetime
 
 class Botao_feature(ft.UserControl):
-    def criar(name, position=None):
-
-        match position:
-            case "Left":
-                position = ft.LabelPosition.LEFT
-            case "Right":
-                position = ft.LabelPosition.RIGHT
-
+    def criar(name, func=None):
         btn = ft.Checkbox(
         check_color="#0BE881",
         fill_color={ft.MaterialState.SELECTED: "#0BE881", ft.MaterialState.DEFAULT: "#485460"},
         width=124,
         height=39,
         label=name,
-        label_position=position,
+        value=False,
+        on_change=func
         )
         return btn
 
@@ -27,75 +22,60 @@ def main(page: ft.Page):
     page.fonts = {
         "Jomhuria": "assets\font\Jomhuria-Regular.ttf"
     }
-    page.window_width = 500
-    page.window_height = 430
+    page.window_width = 469
+    page.window_height = 403
+    page.padding = 0
     page.window_resizable = False
     page.window_maximizable = False
+    page.horizontal_alignment = "center"
+    page.vertical_alignment = "center"
     page.bgcolor = "#1E272E"
+    ft.Icon()
     
-    acceptbtn = Botao_feature.criar("AutoAceitar")  
-    autorunebtn = Botao_feature.criar("AutoRuna")
-    autospellsbtn = Botao_feature.criar("AutoSpells")
+
+    def accept(e):
+        pass
+
+    def ban(e):
+        pass
     
-    autobanbtn = Botao_feature.criar("AutoBan", "Left")
-    autododgebtn = Botao_feature.criar("AutoDodge", "Left")
-    automatchmakingbtn = Botao_feature.criar("AutoMatchMaking", "Left")
+    def rune(e):
+        pass
+
+    def spells(e):
+        pass
+
+    def dodge(e):
+        pass
+
+    def matchmaking(e):
+        pass
+
+    acceptbtn = Botao_feature.criar("AutoAceitar", accept)
+    autorunebtn = Botao_feature.criar("AutoRuna", rune)
+    autospellsbtn = Botao_feature.criar("AutoSpells", spells)
+    autobanbtn = Botao_feature.criar("AutoBan", ban)
+    autododgebtn = Botao_feature.criar("AutoDodge", dodge)
+    automatchmakingbtn = Botao_feature.criar("AutoMatchMaking", matchmaking)
+
 
     page.add(
-        ft.Row(alignment=ft.MainAxisAlignment.END, width=400, height=400,
+        ft.Row(
             controls=[
                 ft.Column(
                     [
                         acceptbtn,
                         autorunebtn,
                         autospellsbtn,
-                    ]
-                ),
-            
-                ft.Column(
-                    [
-                        ft.Image(src="https://th.bing.com/th/id/R.1395d1b17397018e6916784c283a14f2?rik=bmfmSW7odc2D1A&pid=ImgRaw&r=0",width=114, height=100),
-                        ft.Text(width=139, height=30, text_align=ft.TextAlign.CENTER, color="white", size=20, font_family="Jomhuria", value="Nickname"),
-                        ft.Text("Level", width=139, height=30, text_align=ft.TextAlign.CENTER, color="0xFFFF0000", size=20, font_family="Jomhuria")
-                    ]
-                ),
-
-                ft.Column(
-                    controls=[
                         autobanbtn, 
                         autododgebtn, 
                         automatchmakingbtn
-                    ],
-                )
-            ],
-            
+                    ]
+                ),
+            ],  
         )
     )
 
-    # page.add(
-    #     ft.Row(
-    #         controls=[
-    #             ft.Image(
-    #                 width = 80.16,
-    #                 height = 82.37,
-    #                 src="https://th.bing.com/th/id/OIP.KeRduNXcbnI6lIpUsQzq3gHaFj?pid=ImgDet&rs=1"
-    #             ),
-    #             ft.Column(
-    #                 [
-    #                     ft.Text("Você geralmente ganha jogando com: "),
-    #                     ft.Container(width=276, height=39),
-    #                     ft.Text("Você geralmente perde jogando contra: "),
-    #                     ft.Container(width=276, height=39) 
-    #                 ]
-    #             ),
-    #             ft.Image(
-    #                 width = 80.16,
-    #                 height = 82.37,
-    #                 src="https://th.bing.com/th/id/OIP.KeRduNXcbnI6lIpUsQzq3gHaFj?pid=ImgDet&rs=1"
-    #             ),
-    #         ]
-    #     )
-    # )
 
 if __name__ == "__main__":
     ft.app(target=main)

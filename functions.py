@@ -1,5 +1,7 @@
 import json
+import interface
 from lcu_driver import Connector
+
 connector = Connector()
 
 async def champselect(connection):
@@ -23,7 +25,6 @@ async def updated(connection, event):
     await champSelect(connection)
 
 
-
 @connector.ws.register("/lol-pre-end-of-game/v1/currentSequenceEvent", event_types=("UPDATE",))
 async def updated(connection, event):
     print()
@@ -39,8 +40,7 @@ async def updated(connection, event):
     print(end)
 
 @connector.ws.register("/lol-matchmaking/v1/ready-check", event_types=("UPDATE",))
-@connector.ws.register("/lol-matchmaking/v1/ready-check/decline", event_types=("CREATE",))
-async def decline(connection, event):
+async def accept(connection, event):
     print()
     end = await connection.request("get", "/lol-matchmaking/v1/ready-check")
     end = json.loads(await end.read())
@@ -49,7 +49,3 @@ async def decline(connection, event):
         end = await connection.request("post", "/lol-matchmaking/v1/ready-check/accept")
         end = json.loads(await end.read())
         print(end)
-
-
-
-connector.start()
