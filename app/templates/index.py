@@ -1,7 +1,6 @@
-import time
 import flet as ft
-import functions
-from datetime import datetime
+import requests
+from tinydb import TinyDB
 
 class Botao_feature(ft.UserControl):
     def criar(name, func=None):
@@ -17,46 +16,36 @@ class Botao_feature(ft.UserControl):
         return btn
 
 def main(page: ft.Page):
-
     page.title = "LCULeagueTools"
     page.fonts = {
         "Jomhuria": "assets\font\Jomhuria-Regular.ttf"
     }
     page.window_width = 469
     page.window_height = 403
-    page.padding = 0
+    page.padding = 10
     page.window_resizable = False
     page.window_maximizable = False
     page.horizontal_alignment = "center"
     page.vertical_alignment = "center"
     page.bgcolor = "#1E272E"
-    ft.Icon()
-    
 
-    def accept(e):
-        pass
+    db = TinyDB("app\models\db.json", indent=4)
+    localhost = "http://localhost:5000/"
 
-    def ban(e):
-        pass
-    
-    def rune(e):
-        pass
+    for c in range(1, 6):
+        db.update({"value": "False"}, doc_ids=[c])
 
-    def spells(e):
-        pass
+    def aceitar(e):
+        value = acceptbtn.value
+        requests.post((localhost + f"accept/{value}"))
 
-    def dodge(e):
-        pass
 
-    def matchmaking(e):
-        pass
-
-    acceptbtn = Botao_feature.criar("AutoAceitar", accept)
-    autorunebtn = Botao_feature.criar("AutoRuna", rune)
-    autospellsbtn = Botao_feature.criar("AutoSpells", spells)
-    autobanbtn = Botao_feature.criar("AutoBan", ban)
-    autododgebtn = Botao_feature.criar("AutoDodge", dodge)
-    automatchmakingbtn = Botao_feature.criar("AutoMatchMaking", matchmaking)
+    acceptbtn = Botao_feature.criar("AutoAceitar", aceitar)
+    autorunebtn = Botao_feature.criar("AutoRuna")
+    autospellsbtn = Botao_feature.criar("AutoSpells")
+    autobanbtn = Botao_feature.criar("AutoBan")
+    autododgebtn = Botao_feature.criar("AutoDodge")
+    automatchmakingbtn = Botao_feature.criar("AutoMatchMaking")
 
 
     page.add(
@@ -75,7 +64,3 @@ def main(page: ft.Page):
             ],  
         )
     )
-
-
-if __name__ == "__main__":
-    ft.app(target=main)

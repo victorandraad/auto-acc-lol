@@ -1,0 +1,40 @@
+{
+    "_default": {
+        "1": {
+            "value": "True"
+        },
+        "2": {
+            "value": "False"
+        },
+        "3": {
+            "value": "False"
+        },
+        "4": {
+            "value": "False"
+        },
+        "5": {
+            "value": "False"
+        },
+        "6": {
+            "value": "false"
+        },
+        "7": {
+            "champion1": 54
+        },
+        "8": {
+            "champion2": 43
+        },
+        "9": {
+            "champion3": 23
+        },
+        "10": {
+            "banChampion1": 123
+        },
+        "11": {
+            "banChampion2": 435
+        },
+        "12": {
+            "banChampion3": 123
+        }
+    }
+}
