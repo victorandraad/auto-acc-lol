@@ -1,6 +1,6 @@
 from tinydb import TinyDB
 
-db = TinyDB("app\models\db.json", indent=4)
+db = TinyDB("instance\db.json", indent=4)
 
 db.insert({
     # autoaccept
@@ -34,30 +34,30 @@ db.insert({
 
 db.insert({
     # champion1
-    'value': 54
+    'champion1': 54
 })
 
 db.insert({
     # champion2
-    'value': 43
+    'champion2': 43
 })
 
 db.insert({
     # champion3
-    'value': 23
+    'champion3': 23
 })
 
 db.insert({
     # banChampion1
-    'value': 123
+    'banChampion1': 123
 })
 
 db.insert({
     # banChampion2
-    'value': 435
+    'banChampion2': 435
 })
 
 db.insert({
     # banChampion3
-    'value': 123
+    'banChampion3': 123
 })
